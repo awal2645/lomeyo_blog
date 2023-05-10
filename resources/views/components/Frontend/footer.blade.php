@@ -46,10 +46,12 @@
                 <div class="col-lg-4">
                     <div class="footer-wizard">
                         <h6>Newsletter</h6>
-                        <form action="#">
+                        <form action="{{route('mail.send')}}" method="POST">
                             <div class="footer-wizard-form">
-                                <input type="email" placeholder="Enter Email">
-                                <button class="btn btn-default btn-default-sm">Subscribe</button>
+                                @csrf
+                                <input type="email" placeholder="Enter Email" name="email">
+                                <button type="sub
+                                " class="btn btn-default btn-default-sm">Subscribe</button>
                             </div>
                         </form>
                     </div>

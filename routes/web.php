@@ -8,8 +8,11 @@ use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\BlogTagController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Models\BlogLike;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,4 +84,9 @@ Route::get('/search',[BlogFrontEndController::class, 'Search'])->name('search');
 Route::resource('comments',CommentController::class);
 Route::post('likes',[BlogLikeController::class, 'store'])->name('likes.store');
 Route::get('likes/del/{id}',[BlogLikeController::class, 'destroy'])->name('likes.destroy');
+
+//mail
+Route::post('/example1', [NotificationController::class, 'example1'])->name('mail.send');
+Route::get('/example2', [NotificationController::class, 'example2']);
+Route::get('/example3', [NotificationController::class, 'example3']);
 require __DIR__.'/auth.php';

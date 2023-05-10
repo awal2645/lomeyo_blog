@@ -146,15 +146,16 @@
                                 </div>
                                 {{!!$blog_post->description !!}}  
                                 <div class="blog-article-end-bottom">
-                                    
                                         @foreach ($total_like as $like)
-                                        @if(Auth::user()->id==$like->user_id)
+
+                                       @if (Auth::user()->id==$like->user_id)
+
+                                                @if(Auth::user()->id==$like->user_id)
+
                                                 <a href="{{url('likes/del/'.$like->id)}}"  style="font-size:20px">
                                                     
-                                                   <button class="btn btn-default btn-default-sm">Dislike</button>
-                                                </a> 
-                
-                                        @else
+                                                    <button class="btn btn-default btn-default-sm">Dislike</button>
+                                                    @else
                                                 <form action="{{route("likes.store")}}" method="POST" id="my_form">
                                                     @csrf
                                                     <input type="hidden" name="post_id" value="{{$blog_post->id}}">
@@ -162,9 +163,12 @@
                                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id}}">
                                                     <a  href="javascript:{}" onclick="document.getElementById('my_form').submit();" style="font-size:20px">
                                                         <button class="btn btn-default btn-default-sm">Like</button>
-                                                     </a>  
+                                                        </a>  
                                                 </form>
-                                        @endif 
+                                                @endif  
+                                       @endif
+                                       
+                                      
                                     @endforeach
                                     @if($total_like->count()==0)
                                         <form action="{{route("likes.store")}}" method="POST" id="my_form">
