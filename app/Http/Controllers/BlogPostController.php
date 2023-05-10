@@ -10,6 +10,7 @@ use App\Models\BlogTag;
 use App\Models\Comment;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class BlogPostController extends Controller
@@ -70,9 +71,11 @@ class BlogPostController extends Controller
         $category_id=$preview_post->category_id;
         $status=0;
         $category_post= BlogPost::where('status',$status )->get();
-        $like= BlogLike::where('post_id', $id)->get();
+        $user_id=Auth::user()->id;
+        $like= BlogLike::where('post_id', $id)->where('user_id', $user_id)->first();
+        $total_like= BlogLike::where('post_id', $id)->get();
         $comment= Comment::where('post_id', $id)->get();
-        return view("Backend.Post.preview", ['blog_post' => $preview_post,'category_post' => $category_post,'total_like'=>$like,'comments'=>$comment]);
+        return view("Backend.Post.preview", ['blog_post' => $preview_post,'total_like'=>$total_like,'category_post' => $category_post,'like'=>$like,'comments'=>$comment]);
     }
 
     //Blog Post Edit Controller
