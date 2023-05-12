@@ -19,15 +19,22 @@ class BlogPostController extends Controller
 
     public function AddBlogPost()
     {
+        if(Auth::user()->is_admin==1){
+            return redirect()->back();
+        }else{
         $category = BlogCategory::all();
         $tag = BlogTag::all();
         return view("Backend.Post.add_post", ['cat' => $category,'tag'=>$tag]);
+        }
     }
     
     //Blog Post Store  Controller
 
     public function StoreBlogpost(Request $request)
     {
+        if(Auth::user()->is_admin==1){
+            return redirect()->back();
+        }else{
         // dd($request->all());
         $file = $request->file('header_img');
         $fileName = time() . '.' . $file->getClientOriginalExtension();
@@ -51,15 +58,19 @@ class BlogPostController extends Controller
         Alert::success('Congrats', ' Successfully Create');
         return redirect()->back();
     }
+    }
 
     //Blog Post List Controller
 
     public function ListBlogPost()
     {
-
+        if(Auth::user()->is_admin==1){
+            return redirect()->back();
+        }else{
         $blog_post = BlogPost::all();
 
         return view("Backend.Post.post_list", ['blog_post' => $blog_post]);
+        }
     }
 
     //Blog Post Preview Controller
@@ -71,8 +82,14 @@ class BlogPostController extends Controller
         $category_id=$preview_post->category_id;
         $status=0;
         $category_post= BlogPost::where('status',$status )->get();
-        $user_id=Auth::user()->id;
-        $like= BlogLike::where('post_id', $id)->where('user_id', $user_id)->first();
+        if(empty(Auth::user()->id)){
+            $like= BlogLike::where('post_id', $id)->first();
+        
+        }else{
+            $user_id=Auth::user()->id;
+            $like= BlogLike::where('post_id', $id)->where('user_id', $user_id)->first();
+        }
+        
         $total_like= BlogLike::where('post_id', $id)->get();
         $comment= Comment::where('post_id', $id)->get();
         return view("Backend.Post.preview", ['blog_post' => $preview_post,'total_like'=>$total_like,'category_post' => $category_post,'like'=>$like,'comments'=>$comment]);
@@ -82,17 +99,23 @@ class BlogPostController extends Controller
 
     public function EditBlogPost($id = null)
     {
-        
+        if(Auth::user()->is_admin==1){
+            return redirect()->back();
+        }else{
         $edit_post = BlogPost::find($id);
         $category = BlogCategory::all();
         $tag = BlogTag::all();
         return view("Backend.Post.edit_post", ['edit_post' => $edit_post, 'cat' => $category,'tag'=>$tag]);
+        }
     }
 
     //Blog Post Update  Controller
 
     public function UpdateBlogPost(Request $request, $id)
     {
+        if(Auth::user()->is_admin==1){
+            return redirect()->back();
+        }else{
         $post_id = BlogPost::find($id);
         if ($request->hasFile('header_img')) {
             $file = $request->file('header_img');
@@ -123,6 +146,7 @@ class BlogPostController extends Controller
         $post_id->tag()->sync($relation);
         Alert::success('Congrats', 'Successfully Update');
         return redirect()->back();
+        }
     }
 
     //Blog Post Delete  Controller

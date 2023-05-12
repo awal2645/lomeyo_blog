@@ -14,11 +14,9 @@
                                 <h4><a href="details.html">{{$item->header_title}}</a></h4>
                                 <div class="blog-date">
                                     <div class="blog-date-start">
-                                        <span>{{$item->read_time}}</span>
+                                       Reading Time: <span>{{$item->read_time}}</span>
                                     </div>
-                                    <div class="blog-date-end">
-                                        <span>{{$item->blog_title}}</span>
-                                    </div>
+                                    
                                 </div>
                                 <p>
                                     {{$item->blog_article}}

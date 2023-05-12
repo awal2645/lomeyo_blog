@@ -18,7 +18,7 @@
               </div>
               <div class="form-group">
                 <label for="header_img"> Blog Header Iamge</label>
-                <input type="file" class=" btn" name="header_img" accept="image/*" value="{{$edit_post->header_img}}" id="header_img" placeholder="Enter post Name" required>
+                <input type="file" class=" btn" name="header_img" accept="image/png, image/jpeg, image/jpg" value="{{asset($edit_post->header_img)}}" id="header_img" placeholder="Enter post Name" required>
                 <img src="{{asset($edit_post->header_img) }}" class="img-fluid img-thumbnail" width="150">
             </div>
               <div class="form-group">

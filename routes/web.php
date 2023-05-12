@@ -65,7 +65,7 @@ Route::get('/admin/blog/tag/del/{id}',[BlogTagController::class ,'DelBlogTag'])-
 Route::get('/admin/blogpost',[BlogPostController::class, 'AddBlogPost'])->name('add.blog.post')->middleware(['auth', 'verified']);
 Route::post('/admin/blogpost',[BlogPostController::class, 'StoreBlogPost'])->name('store.blog.post')->middleware(['auth', 'verified']);
 Route::get('/admin/blogpost/list',[BlogPostController::class, 'ListBlogPost'])->name('list.blog.post')->middleware(['auth', 'verified']);
-Route::get('/admin/blogpost/preview/{slug}',[BlogPostController::class, 'PreviewBlogPost'])->name('preview.blog.post')->middleware(['auth', 'verified']);
+Route::get('/admin/blogpost/preview/{slug}',[BlogPostController::class, 'PreviewBlogPost'])->name('preview.blog.post');
 Route::get('/admin/blogpost/edit/{id}',[BlogPostController::class, 'EditBlogPost'])->name('edit.blog.post')->middleware(['auth', 'verified']);
 Route::post('/admin/blogpost/edit/{id}',[BlogPostController::class, 'UpdateBlogPost'])->name('update.blog.post')->middleware(['auth', 'verified']);
 Route::get('/admin/blogpost/del/{id}',[BlogPostController::class, 'DelBlogPost'])->name('del.blog.post')->middleware(['auth', 'verified']);
@@ -81,9 +81,9 @@ Route::get('post/category/{category_slug}',[BlogFrontEndController::class, 'Cate
 Route::get('/search',[BlogFrontEndController::class, 'Search'])->name('search');
 
 //
-Route::resource('comments',CommentController::class);
-Route::post('likes',[BlogLikeController::class, 'store'])->name('likes.store');
-Route::get('likes/del/{id}',[BlogLikeController::class, 'destroy'])->name('likes.destroy');
+Route::resource('comments',CommentController::class)->middleware(['auth', 'verified']);
+Route::post('likes',[BlogLikeController::class, 'store'])->name('likes.store')->middleware(['auth', 'verified']);
+Route::get('likes/del/{id}',[BlogLikeController::class, 'destroy'])->name('likes.destroy')->middleware(['auth', 'verified']);
 
 //mail
 Route::post('/example1', [NotificationController::class, 'example1'])->name('mail.send');

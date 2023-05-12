@@ -1,5 +1,7 @@
 @include('components.Frontend.header')
-
+@php
+   $siteData= App\Models\BlogFrontEnd::all()->first();
+@endphp
     <!-- Blog Details Banner Starts Here -->
     <section class="details-banner">
         <img src="{{asset($blog_post->header_img)}}" alt="Background Image" class="img-fluid w-100 h-8">
@@ -20,7 +22,7 @@
                             <div class="intro-start">
                                 <div class="intro-start-author">
                                     <div class="author-image">
-                                        <img src="" alt="Author">
+                                        <img src="{{asset($siteData->site_logo)}}" alt="Author">
                                     </div>
                                     <a href="#" class="fs-6">{{$blog_post->user_name}}</a>
                                 </div>
@@ -29,9 +31,10 @@
                                         <span class="dot"></span>
                                         <span class="intro-start-time">{{$blog_post->updated_at}}</span>
                                     </div>
+                                
                                     <div>
-                                        <span class="dot"></span>
-                                        <span class="intro-start-time">{{$blog_post->read_time}}</span>
+                                        <span class="dot"> </span>
+                                        <span class="intro-start-time">Reading Time:{{$blog_post->read_time}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -113,9 +116,19 @@
 
                                     </p>
                                 </div>
-                                {{!!$blog_post->description !!}}  
+                                {{-- blog start description --}}
+
+                                {!! $blog_post->description !!}  
+
+                                 {{-- blog end description --}}
                                 <div class="blog-article-end-bottom">
+                                        @if(empty(Auth::user()->id))
+                                        <form action="{{route('login')}}">
+                                            <input type="submit" class="btn btn-default btn-default-sm" value="Like" />
+                                        </form>  
+                                             
                                         
+                                        @else
                                                 @if($like)
                                                     <a href="{{url('likes/del/'.$like->id)}}"  style="font-size:20px">
                                                         
@@ -132,7 +145,7 @@
                                                         </a>  
                                                     </form>
                                                 @endif  
-                                    
+                                        @endif
                               
                                     
                                     <div class="d-flex align-items-center flex-column flex-lg-row">
@@ -246,21 +259,35 @@
     <!-- Comments Area Starts Here -->
   <div class=" container ">
     <div class=" justify-center">
-    @include('Backend.Post.commentsDisplay', ['comments' => $blog_post->comments, 'post_id' => $blog_post->id])
-    <h2>Add comment</h2>
-    <form method="post" action="{{ route('comments.store') }}">
-        @csrf
-        <div class="form-group">
-            <textarea class="form-control" name="comment" required></textarea>
-            <input type="hidden" name="post_id" value="{{ $blog_post->id }}" />
-            <input type="hidden" name="user_name" value="{{ Auth::user()->name}}">
-        </div>
-        <br>
-        <div class="form-group">
+        @include('Backend.Post.commentsDisplay', ['comments' => $blog_post->comments, 'post_id' => $blog_post->id])
+        <h2>Add comment</h2>
+        @if(empty(Auth::user()->id))
     
-            <input type="submit" class="btn btn-default btn-default-sm" value="Add Comment" />
-        </div>
-    </form>
+            <div class="form-group">
+                    <textarea class="form-control" name="comment" required></textarea>
+            </div>
+            <br>
+            <div class="form-group">
+                <form action="{{route('login')}}">
+                    <input type="submit" class="btn btn-default btn-default-sm" value=" Add Comment" />
+                </form>           
+            </div>
+    
+        @else
+            <form method="post" action="{{ route('comments.store') }}">
+                @csrf
+                <div class="form-group">
+                    <textarea class="form-control" name="comment" required></textarea>
+                    <input type="hidden" name="post_id" value="{{ $blog_post->id }}" />
+                    <input type="hidden" name="user_name" value="{{ Auth::user()->name}}">
+                </div>
+                <br>
+                <div class="form-group">
+            
+                    <input type="submit" class="btn btn-default btn-default-sm" value="Add Comment" />
+                </div>
+            </form>
+        @endif
   </div>
   <br>
     <!-- Comments Area Ends Here -->

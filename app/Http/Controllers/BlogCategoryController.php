@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BlogCategory;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogCategoryController extends Controller
 {
@@ -13,14 +14,22 @@ class BlogCategoryController extends Controller
      */
   
     public function AddBlogCategory(){
+        if(Auth::user()->is_admin==1){
+            return redirect()->back();
+        }else{
         return view("Backend.Category.add_category");
+        }
     }
     
     public function ListBlogCategory()
     {
+        if(Auth::user()->is_admin==1){
+            return redirect()->back();
+        }else{
         $blog_ctg = BlogCategory::all();
 		
         return view("Backend.Category.category_list",['category'=>$blog_ctg]);
+        }
     }
    
 
@@ -33,10 +42,11 @@ class BlogCategoryController extends Controller
         //     'category_name' => 'required|unique:blog_categories',
         //     'category_des' => 'required'
         //     ]);
-
+       
         BlogCategory::create($request->all());
         Alert::success('Congrats', 'Successfully Create');
         return redirect()->back();
+       
     }
 
   
