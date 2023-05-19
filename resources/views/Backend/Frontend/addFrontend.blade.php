@@ -1,4 +1,6 @@
 @extends('layouts.admin_layouts')
+@section('title','Frontend Setting')
+@section('heading','Frontend Setting')
 @section('content')
 <div class="card card-primary">
     <div class="card-header">
@@ -18,11 +20,13 @@
               <div class="form-group">
                 <label for="site_logo">Website  Logo</label>
                 <input type="file" class="form-control btn" value="{{$siteData->site_logo}}" name="site_logo" id="site_logo" placeholder="Enter Category Name">
+                <input type="hidden" value="{{$siteData->site_logo}}" name="site_logo_name" >
                 <img src="{{asset($siteData->site_logo) }}" class="img-fluid img-thumbnail" width="150">
               </div>
               <div class="form-group">
                 <label for="site_slider">Website  Slider</label>
                 <input type="file" class="form-control btn" name="site_slider" value="{{$siteData->site_slider }}" id="site_slider" placeholder="Enter Category Name">
+                <input type="hidden" value="{{$siteData->site_slider}}" name="site_slider_name" >
                 <img src="{{asset($siteData->site_slider) }}" class="img-fluid img-thumbnail" width="150">
 
             </div>

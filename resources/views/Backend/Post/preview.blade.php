@@ -1,4 +1,5 @@
 @include('components.Frontend.header')
+@include('sweetalert::alert')
 @php
    $siteData= App\Models\BlogFrontEnd::all()->first();
 @endphp
@@ -28,13 +29,8 @@
                                 </div>
                                 <div class="intro-start-release d-flex">
                                     <div>
-                                        <span class="dot"></span>
-                                        <span class="intro-start-time">{{$blog_post->updated_at}}</span>
-                                    </div>
-                                
-                                    <div>
                                         <span class="dot"> </span>
-                                        <span class="intro-start-time">Reading Time:{{$blog_post->read_time}}</span>
+                                        <span class="intro-start-time">{{$blog_post->updated_at->format('M d, Y')}}</span> <span class="dot"></span> <span class="intro-start-time">{{$blog_post->read_time}} read</span>
                                     </div>
                                 </div>
                             </div>
@@ -123,8 +119,8 @@
                                  {{-- blog end description --}}
                                 <div class="blog-article-end-bottom">
                                         @if(empty(Auth::user()->id))
-                                        <form action="{{route('login')}}">
-                                            <input type="submit" class="btn btn-default btn-default-sm" value="Like" />
+                                        <form action="{{route('login')}}" id="form">
+                                            <button id="btn" class="btn btn-default btn-default-sm">Like</button>
                                         </form>  
                                              
                                         
@@ -264,12 +260,13 @@
         @if(empty(Auth::user()->id))
     
             <div class="form-group">
-                    <textarea class="form-control" name="comment" required></textarea>
+                <textarea class="form-control" name="comment" required></textarea>
+                
             </div>
             <br>
             <div class="form-group">
                 <form action="{{route('login')}}">
-                    <input type="submit" class="btn btn-default btn-default-sm" value=" Add Comment" />
+                    <button id="cmt_btn" class="btn btn-default btn-default-sm" >Add Comment</button>
                 </form>           
             </div>
     
@@ -280,6 +277,9 @@
                     <textarea class="form-control" name="comment" required></textarea>
                     <input type="hidden" name="post_id" value="{{ $blog_post->id }}" />
                     <input type="hidden" name="user_name" value="{{ Auth::user()->name}}">
+                    @if ($errors->has('comment'))
+                    <p class=" text-danger">{{ $errors->first('comment') }}</p>
+                @endif
                 </div>
                 <br>
                 <div class="form-group">
@@ -292,5 +292,21 @@
   <br>
     <!-- Comments Area Ends Here -->
 </div>
+<script>
+    $(document).ready(function () {
+        
+         
+       
+        $("#btn").click(function () {
+          
+            alert("Login First Then You Like")
+           
+        });
+        $("#cmt_btn").click(function () {
+            alert("Login First Then You Comment")
+           
+        });
+    });
+</script>
     <!-- Footer Starts Here -->
-    @include('components.Frontend.footer')
+@include('components.Frontend.footer')

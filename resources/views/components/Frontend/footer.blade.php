@@ -21,8 +21,9 @@
                     <div class="footer-wizard">
                         <h6>Category</h6>
                         <ul class="list-unstyled">
-                            @php
-                            $cat=App\Models\BlogCategory::all() 
+                        @php
+                            $cat=App\Models\BlogCategory::all() ;
+                            $folow= App\Models\FollowUs::all() ;
                         @endphp 
                          @foreach ($cat as $item)
                          <li><a href="{{url('post/category/'.$item->category_slug)}}" class="main-menu-item">{{$item->category_name}}</a></li>
@@ -36,10 +37,11 @@
                     <div class="footer-wizard">
                         <h6>Follow us</h6>
                         <ul class="list-unstyled">
-                            <li><a href="#">Facebook</a></li>
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="#">Instagram</a></li>
-                            <li><a href="#">Youtube</a></li>
+                            @foreach ($folow as $item)
+                            <li><a href="{{$item->follow_slug}}">{{$item->follow_name}}</a></li>
+                            @endforeach
+                            
+                            
                         </ul>
                     </div>
                 </div>
@@ -49,16 +51,23 @@
                         <form action="{{route('mail.send')}}" method="POST">
                             <div class="footer-wizard-form">
                                 @csrf
-                                <input type="email" placeholder="Enter Email" name="email">
+                                <input type="email" placeholder="Enter Email" name="email" >
+                            
                                 <button type="sub
                                 " class="btn btn-default btn-default-sm">Subscribe</button>
+                               
                             </div>
+                            @if ($errors->has('email'))
+                            <p class=" text-danger">{{ $errors->first('email') }}</p>
+                            @endif
                         </form>
                     </div>
                 </div>
             </div>
             <div class="copy-right">
-                <p>@ 2021 - Blogy</p>
+                <p>@ @php
+                    echo date("Y");
+                    @endphp - Blogy</p>
                 <p>Designed & Develop by <a href="https://zakirsoft.com/">Zakirsoft</a></p>
             </div>
         </div>

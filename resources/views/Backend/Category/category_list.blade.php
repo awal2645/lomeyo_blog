@@ -1,4 +1,6 @@
 @extends('layouts.admin_layouts')
+@section('title',' Category List')
+@section('heading','Category List')
 @section('content')
 <div class="card">
     <div class="card-header">

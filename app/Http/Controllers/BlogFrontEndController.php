@@ -69,7 +69,8 @@ class BlogFrontEndController extends Controller
                     Storage::delete('public/images/' . $post_id->site_logo);
                 }
             } else {
-                $fileName = $request->site_logo;
+                $fileName = $request->site_logo_name;
+                $imgpath =$fileName;
             }
             if ($request->hasFile('site_slider')) {
                 $file = $request->file('site_slider');
@@ -80,7 +81,8 @@ class BlogFrontEndController extends Controller
                     Storage::delete('public/images/' . $post_id->site_slider);
                 }
             } else {
-                $fileName = $request->site_slider;
+                $fileName = $request->site_slider_name;
+                $sliderpath = $fileName;
             }
             $post_id->site_name = $request->site_name;
             $post_id->site_logo =  $imgpath;

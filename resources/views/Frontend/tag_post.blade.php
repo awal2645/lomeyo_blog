@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h4 class="heading">Your Tag  Post</h4>
+                <h4 class="heading text-center">Your Tag Post</h4>
             </div>
         </div>
         <div class="row">

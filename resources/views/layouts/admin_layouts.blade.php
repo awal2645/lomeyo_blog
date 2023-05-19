@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Dashboard</title>
+  <title>@yield('title')</title>
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -43,12 +43,8 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{route('admin')}}" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+     
+      
     </ul>
 
     <!-- Right navbar links -->
@@ -77,108 +73,47 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="{{asset("Backend/dist/img/user1-128x128.jpg")}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
+        {{-- Logout  --}}
+        <div>
+
+          @if (!empty(Auth::user()->name))
+              
+          
+                 <form method="POST" action="{{ route('logout') }}">
+                     @csrf
+
+                     <x-dropdown-link :href="route('logout')" class=" mr-3 btn"
+                             onclick="event.preventDefault();
+                                         this.closest('form').submit();"><i class="fa fa-sign-out" aria-hidden="true"></i>
+
+                         
+                     </x-dropdown-link>
+                 </form>
+                
+                     
+                 @else
+                     
+                
+                 <a class="btn" href="{{route('login')}}"> <i class="fa fa-sign-in" aria-hidden="true" style="font-size: 20px"></i></a>
+                 @endif
+         </div>
+      {{-- logut end --}}
+        
       </li>
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
+  
     </ul>
   </nav>
   <!-- /.navbar -->
-
+  @php
+  $siteData= App\Models\BlogFrontEnd::all()->first();
+@endphp
+   <title>{{$siteData->site_name}}</title>
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="{{asset('Backend/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="{{route("home.index")}}" class="brand-link">
+      <img src="{{asset($siteData->site_logo)}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      
       <span class="brand-text font-weight-light">Blog</span>
     </a>
 
@@ -190,7 +125,7 @@
           <img src="{{asset('Backend/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Admin</a>
+          <a href="#" class="d-block">{{Auth::user()->name}}</a>
         </div>
       </div>
       <!-- Sidebar Menu -->
@@ -198,14 +133,14 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="{{route('admin')}}" class="nav-link">
+          <li class="nav-item">
+            <a href="{{route('admin')}}" class="nav-link {{ (request()->is('admin')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Dashboard</p>
+                <p >Dashboard</p>
               </a>
           </li>
-          <li class="nav-item">
-            <a href="" class="nav-link">
+          <li class="nav-item {{ (request()->is('admin/blogcategory/*')) ? 'menu-open' : '' }}" >
+            <a href="#" class="nav-link " >
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Blog Category
@@ -214,20 +149,43 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('add.blog.category')}}" class="nav-link">
+                <a href="{{route('add.blog.category')}}" class="nav-link {{ (request()->is('admin/blogcategory/add')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Category Add</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('list.blog.category')}}" class="nav-link">
+                <a href="{{route('list.blog.category')}}" class="nav-link {{ (request()->is('admin/blogcategory/list')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Category List</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {{ (request()->is('admin/blog/tag/*')) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Blog  Tag
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('add.blog.tag')}}" class="nav-link {{ (request()->is('admin/blog/tag/add')) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tag Add</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('list.blog.tag')}}" class="nav-link {{ (request()->is('admin/blog/tag/list')) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tag List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item {{ (request()->is('admin/blogpost/*')) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
@@ -237,52 +195,55 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('add.blog.post')}}" class="nav-link">
+                <a href="{{route('add.blog.post')}}" class="nav-link {{ (request()->is('admin/blogpost/add')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Post Add</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{route('list.blog.post')}}" class="nav-link">
+              <li class="nav-item {{ (request()->is('admin/blogpost/list')) ? 'active' : '' }}">
+                <a href="{{route('list.blog.post')}}" class="nav-link {{ (request()->is('admin/blogpost/list')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Post List</p>
                 </a>
               </li>
             </ul>
           </li>
+         
           <li class="nav-item">
+            <a href="{{route('add.blog.frontend')}}" class="nav-link {{ (request()->is('admin/blog/frontend/add')) ? 'active' : '' }}">
+              <i class="nav-icon far fa-plus-square"></i>
+              <p>
+                Front-End Detalis
+              </p>
+            </a>
+          </li>
+          <li class="nav-item {{ (request()->is('admin/blog/follow/*')) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Blog Post Tag
+               Follow Manage
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
+             
               <li class="nav-item">
-                <a href="{{route('add.blog.tag')}}" class="nav-link">
+                <a href="{{route('add.follow')}}" class="nav-link {{ (request()->is('admin/blog/follow/add')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Tag Add</p>
+                  <p>Follow Us Add</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('list.blog.tag')}}" class="nav-link">
+                <a href="{{route('list.follow')}}" class="nav-link {{ (request()->is('admin/blog/follow/list')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Tag List</p>
+                  <p>Follow Us List</p>
                 </a>
               </li>
             </ul>
           </li>
+         
           <li class="nav-item">
-            <a href="{{route('add.blog.frontend')}}" class="nav-link">
-              <i class="nav-icon far fa-plus-square"></i>
-              <p>
-                Front-End Manage
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('profile.edit')}}" class="nav-link">
+            <a href="{{route('profile.edit')}}" class="nav-link {{ (request()->is('profile')) ? 'active' : '' }}">
               <i class="nav-icon far fa-circle text-info"></i>
               <p>Profile</p>
             </a>
@@ -300,7 +261,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0 ">@yield('heading')</h1>
           </div><!-- /.col -->
           
         </div><!-- /.row -->

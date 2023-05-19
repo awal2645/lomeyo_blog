@@ -2,7 +2,7 @@
 
     <!-- Banner Starts Here -->
     <section class="banner"
-        style="background-color: #F5F5F5; background-image: url({{asset($siteData->site_slider)}});">
+        style="background-color: #F5F5F5; background-image: url({{asset($siteData->site_slider)}});background-position: right; background-repeat: no-repeat;" >
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
@@ -10,13 +10,15 @@
                         @foreach ($lates as $item)
                         <div class="banner-content">
                             <div class="banner-content-main">
-                                <span class="fs-6 has-line">Autor: {{$item->user_name}}</span>
-                                <h4><a href="details.html">{{$item->header_title}}</a></h4>
+                                <span class="fs-6 has-line">{{$item->category->category_name}}</span>
+                                <h4><a href="{{url('/admin/blogpost/preview/'.$item->post_slug)}}">{{$item->header_title}}</a></h4>
                                 <div class="blog-date">
                                     <div class="blog-date-start">
-                                       Reading Time: <span>{{$item->read_time}}</span>
+                                        <span>{{$item->updated_at->format('M d, Y')}}</span>
                                     </div>
-                                    
+                                    <div class="blog-date-end">
+                                        <span>{{$item->read_time}} read</span>
+                                    </div>
                                 </div>
                                 <p>
                                     {{$item->blog_article}}
@@ -49,7 +51,7 @@
                         <span class="fs-6 has-line">{{$lates->category->category_name}}</span>
                         <h6><a href="{{url('/admin/blogpost/preview/'.$lates->post_slug)}}">{{$lates->blog_title}}</a></h6>
                         <div class="blog-item-info-release">
-                            <span>{{$lates->updated_at}}</span> <span class="dot"></span> <span>{{$lates->read_time}}</span>
+                            <span>{{$lates->updated_at->format('M d, Y')}}</span> <span class="dot"></span> <span>{{$lates->read_time}} read</span>
                         </div>
                         <a href="{{url('/admin/blogpost/preview/'.$lates->post_slug)}}" class="btn btn-link">Read Article
                             <svg width="18" height="12" viewBox="0 0 18 12" fill="none"
@@ -87,10 +89,10 @@
                             </a>
                         </div>
                         <div class="blog-item-info">
-                            <span class="fs-6 has-line">{{$post_item->category->category_id}}</span>
+                            <span class="fs-6 has-line">{{$post_item->category->category_name}}</span>
                             <h5><a href="{{url('/admin/blogpost/preview/'.$post_item->post_slug)}}">{{$post_item->blog_title}}</a></h5>
                             <div class="blog-item-info-release">
-                                <span>{{$post_item->category->category_id}}</span> <span class="dot"></span> <span>{{$post_item->read_time}}</span>
+                                <span>{{$lates->updated_at->format('M d, Y')}}</span> <span class="dot"></span> <span>{{$lates->read_time}} read</span>
                             </div>
                             <a href="{{url('/admin/blogpost/preview/'.$post_item->post_slug)}}" class="btn btn-link">Read Article
                                 <svg width="18" height="12" viewBox="0 0 18 12" fill="none"
@@ -130,10 +132,10 @@
                             </a>
                         </div>
                         <div class="blog-item-info">
-                            <span class="fs-6 has-line">{{$post_item->category->category_id}}</span>
+                            <span class="fs-6 has-line">{{$post_item->category->category_name}}</span>
                             <h5><a href="{{url('/admin/blogpost/preview/'.$post_item->post_slug)}}">{{$post_item->blog_title}}</a></h5>
                             <div class="blog-item-info-release">
-                                <span>{{$post_item->category->category_id}}</span> <span class="dot"></span> <span>{{$post_item->read_time}}</span>
+                                <span>{{$lates->updated_at->format('M d, Y')}}</span> <span class="dot"></span> <span>{{$lates->read_time}} read</span>
                             </div>
                             <a href="{{url('/admin/blogpost/preview/'.$post_item->post_slug)}}" class="btn btn-link">Read Article
                                 <svg width="18" height="12" viewBox="0 0 18 12" fill="none"
@@ -175,7 +177,7 @@
                                     <span class="fs-6 has-line">{{$post_item->category->category_id}}</span>
                                     <h5><a href="{{url('/admin/blogpost/preview/'.$post_item->post_slug)}}">{{$post_item->blog_title}}</a></h5>
                                     <div class="blog-item-info-release">
-                                        <span>{{$post_item->category->category_id}}</span> <span class="dot"></span> <span>{{$post_item->read_time}}</span>
+                                        <span>{{$lates->updated_at->format('M d, Y')}}</span> <span class="dot"></span> <span>{{$lates->read_time}} read</span>
                                     </div>
                                     <a href="{{url('/admin/blogpost/preview/'.$post_item->post_slug)}}" class="btn btn-link">Read Article
                                         <svg width="18" height="12" viewBox="0 0 18 12" fill="none"
@@ -197,12 +199,10 @@
                     <div class="featured-category">
                         <h6>Featured Category</h6>
                        
-                        @php
-                        $cat=App\Models\BlogCategory::all() 
-                        @endphp 
+                       
                         @foreach ($cat as $item)
                         <div class="featured-category-item mb-0"
-                            style="background-image: url(dist/images/category-03.jpg);">
+                            style="background-image: url({{asset($item->category_img)}});">
                             <a href="{{url('post/category/'.$item->category_slug)}}">{{$item->category_name}}</a>
                         </div>
                         @endforeach

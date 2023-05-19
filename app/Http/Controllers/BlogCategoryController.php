@@ -6,6 +6,7 @@ use App\Models\BlogCategory;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BlogCategoryController extends Controller
 {
@@ -38,12 +39,30 @@ class BlogCategoryController extends Controller
      */
     public function StoreBlogCategory(Request $request)
     {
-        // $validated = $request->validate([
-        //     'category_name' => 'required|unique:blog_categories',
-        //     'category_des' => 'required'
-        //     ]);
+        $validated = $request->validate([
+            'category_name' => 'required|unique:blog_categories',
+            'category_slug' => 'required',
+            'category_img' => 'required',
+            ]);
+        
+            $file = $request->file('category_img');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/images', $fileName);
+            $imgpath = "/storage/images/$fileName";
+            if($request->featured){
+                $featured=1;
+            }else{
+                $featured=0;
+            }
+        
+          BlogCategory::create([
+            'category_name' => $request->category_name,
+            'category_slug' => $request->category_slug,
+            'category_img' => $imgpath,
+            'featured' => $featured,
+            
+        ]);
        
-        BlogCategory::create($request->all());
         Alert::success('Congrats', 'Successfully Create');
         return redirect()->back();
        
@@ -65,11 +84,37 @@ class BlogCategoryController extends Controller
      */
     public function UpdateBlogCategory(Request $request, $id)
     {
-    
-            $ctgUpdate= BlogCategory::find( $id);
-            $ctgUpdate->category_name= $request->update_category_name;
-            $ctgUpdate->category_des= $request->update_category_des;
-            $ctgUpdate->save();
+        $validated = $request->validate([
+            'category_name' => 'required|unique:blog_categories',
+            'category_slug' => 'required|unique:blog_categories',
+            ]);
+           
+        $ctgUpdate= BlogCategory::find( $id);
+            if ($request->hasFile('category_img')) {
+                $file = $request->file('category_img');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('public/images', $fileName);
+                $imgpath = "/storage/images/$fileName";
+                if ($ctgUpdate->header_img) {
+                    Storage::delete('public/images/' . $ctgUpdate->category_img);
+                }
+            } else {
+                $fileName = $request->category_img_name;
+                $imgpath = $fileName;
+            }
+            if($request->featured){
+                $featured=1;
+            }else{
+                $featured=0;
+            }
+            $ctgdata= [
+                'category_name' => $request->category_name,
+                'category_slug' => $request->category_slug,
+                'featured' => $featured,
+                'category_img' => $imgpath,
+                
+            ];
+            $ctgUpdate->update($ctgdata);
             Alert::success('Congrats', ' Successfully Update');
             return redirect()->back();
     }

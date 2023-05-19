@@ -32,10 +32,27 @@ class BlogPostController extends Controller
 
     public function StoreBlogpost(Request $request)
     {
+        $validatedData = $request->validate([
+           
+            'header_title' => 'required',
+            'header_img' => 'required',
+            'read_time' => 'required',
+            'category_id' => 'required',
+            'blog_title' => 'required',
+            'blog_article' => 'required',
+            'post_slug' => 'required|unique:blog_posts',
+            'blog_title' => 'required',
+            'description' => 'required',
+            
+        ]);
         if(Auth::user()->is_admin==1){
             return redirect()->back();
         }else{
-        // dd($request->all());
+        if($request->featured){
+            $featured=1;
+        }else{
+            $featured=0;
+        }
         $file = $request->file('header_img');
         $fileName = time() . '.' . $file->getClientOriginalExtension();
         $file->storeAs('public/images', $fileName);
@@ -49,7 +66,7 @@ class BlogPostController extends Controller
             'blog_title' => $request->blog_title,
             'blog_article' => $request->blog_article,
             'post_slug' => $request->post_slug,
-            'featured' => $request->featured,
+            'featured' => $featured,
             'status' => $request->status,
             'description' => $request->description
         ]);
@@ -113,6 +130,19 @@ class BlogPostController extends Controller
 
     public function UpdateBlogPost(Request $request, $id)
     {
+        $validatedData = $request->validate([
+           
+            'header_title' => 'required',
+            'header_img' => 'required',
+            'read_time' => 'required',
+            'category_id' => 'required',
+            'blog_title' => 'required',
+            'blog_article' => 'required',
+            'post_slug' => 'required|unique:blog_posts',
+            'blog_title' => 'required',
+            'description' => 'required',
+            
+        ]);
         if(Auth::user()->is_admin==1){
             return redirect()->back();
         }else{
@@ -126,7 +156,13 @@ class BlogPostController extends Controller
                 Storage::delete('public/images/' . $post_id->header_img);
             }
         } else {
-            $fileName = $request->header_img;
+            $fileName = $request->header_img_name;
+            $imgpath = $fileName;
+        }
+        if($request->up_featured){
+            $featured=1;
+        }else{
+            $featured=0;
         }
         $postData = [
             'header_title' => $request->header_title,
@@ -137,7 +173,7 @@ class BlogPostController extends Controller
             'blog_title' => $request->blog_title,
             'blog_article' => $request->blog_article,
             'post_slug' => $request->post_slug,
-            'featured' => $request->featured,
+            'featured' => $featured,
             'status' => $request->status,
             'description' => $request->description
         ];

@@ -7,6 +7,7 @@ use App\Http\Controllers\BlogLikeController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\BlogTagController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FollowUsController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
@@ -34,7 +35,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [('register')::class, 'update'])->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
@@ -62,7 +63,7 @@ Route::get('/admin/blog/tag/del/{id}',[BlogTagController::class ,'DelBlogTag'])-
 
 //Addmin Blog Post controller
 
-Route::get('/admin/blogpost',[BlogPostController::class, 'AddBlogPost'])->name('add.blog.post')->middleware(['auth', 'verified']);
+Route::get('/admin/blogpost/add',[BlogPostController::class, 'AddBlogPost'])->name('add.blog.post')->middleware(['auth', 'verified']);
 Route::post('/admin/blogpost',[BlogPostController::class, 'StoreBlogPost'])->name('store.blog.post')->middleware(['auth', 'verified']);
 Route::get('/admin/blogpost/list',[BlogPostController::class, 'ListBlogPost'])->name('list.blog.post')->middleware(['auth', 'verified']);
 Route::get('/admin/blogpost/preview/{slug}',[BlogPostController::class, 'PreviewBlogPost'])->name('preview.blog.post');
@@ -85,8 +86,16 @@ Route::resource('comments',CommentController::class)->middleware(['auth', 'verif
 Route::post('likes',[BlogLikeController::class, 'store'])->name('likes.store')->middleware(['auth', 'verified']);
 Route::get('likes/del/{id}',[BlogLikeController::class, 'destroy'])->name('likes.destroy')->middleware(['auth', 'verified']);
 
+//Follow controller
+
+Route::get('/admin/blog/follow/add', [FollowUsController::class,'AddFollow'])->name('add.follow')->middleware(['auth', 'verified']);
+Route::post('/admin/blog/follow/add',[FollowUsController::class ,'StoreFollow'])->name('store.follow')->middleware(['auth', 'verified']);
+Route::get('/admin/blog/follow/list',[FollowUsController::class ,'ListFollow'])->name('list.follow')->middleware(['auth', 'verified']);
+Route::get('/admin/blog/follow/edit/{id}',[FollowUsController::class ,'EditFollow'])->name('edit.follow')->middleware(['auth', 'verified']);
+Route::post('/admin/blog/follow/edit/{id}',[FollowUsController::class ,'UpdateFollow'])->name('update.follow')->middleware(['auth', 'verified']);
+Route::get('/admin/blog/follow/del/{id}',[FollowUsController::class ,'DelFollow'])->name('del.follow')->middleware(['auth', 'verified']);
+
 //mail
 Route::post('/example1', [NotificationController::class, 'example1'])->name('mail.send');
-Route::get('/example2', [NotificationController::class, 'example2']);
-Route::get('/example3', [NotificationController::class, 'example3']);
+
 require __DIR__.'/auth.php';

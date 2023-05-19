@@ -1,4 +1,6 @@
 @extends('layouts.admin_layouts')
+@section('title','Update Post')
+@section('heading','Update Post')
 @section('content')
 <div class="card card-primary">
     <div class="card-header">
@@ -18,7 +20,8 @@
               </div>
               <div class="form-group">
                 <label for="header_img"> Blog Header Iamge</label>
-                <input type="file" class=" btn" name="header_img" accept="image/png, image/jpeg, image/jpg" value="{{asset($edit_post->header_img)}}" id="header_img" placeholder="Enter post Name" required>
+                <input type="file" class=" btn" name="header_img" accept="image/png, image/jpeg, image/jpg" value="{{asset($edit_post->header_img)}}" id="header_img" placeholder="Enter post Name" >
+                <input type="hidden" name="header_img_name"  value="{{asset($edit_post->header_img)}}"  >
                 <img src="{{asset($edit_post->header_img) }}" class="img-fluid img-thumbnail" width="150">
             </div>
               <div class="form-group">
@@ -65,11 +68,20 @@
                 <input type="text" class="form-control" name="post_slug" value="{{$edit_post->post_slug}}" id="post_slug" placeholder="Enter post Slug" required>
               </div>
               <div class="form-group">
-                <label for="read_time"> Featured Select </label>
-              <select class="form-control select2 select2-hidden-accessible" name="featured" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" required>   
-                <option selected="selected"  value="0">No</option>
-                <option  @if ($edit_post->featured==1)selected="selected"@endif value="1">Yes</option>
-              </select>
+                  <label class="" for="flexCheckDefault">
+                    Featured Post
+                  </label>
+                  <br>
+                  <input type="checkbox" name="up_featured" @if ($edit_post->featured==1)
+                  checked
+                    @endif  id="flexCheckDefault">
+              </div>
+              <div class="form-group">
+                <label class="" for="flexCheckDefault">
+                  Status Select 
+                </label>
+                <br>
+                <input type="checkbox" name="up_status"  id="flexCheckDefault">
               </div>
               <div class="form-group">
                 <label for="read_time"> Status Select </label>

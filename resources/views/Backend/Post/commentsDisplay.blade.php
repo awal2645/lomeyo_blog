@@ -32,6 +32,9 @@
                     <input type="hidden" name="post_id" value="{{ $post_id }}" />
                     <input type="hidden" name="parent_id" value="{{ $comment->id }}" />
                     <input type="hidden" name="user_name" value="{{ Auth::user()->name}}">
+                    @if ($errors->has('comment'))
+                        <p class=" text-danger">{{ $errors->first('comment') }}</p>
+                    @endif
                 </div>
                 <br>
                 <div class="form-group">

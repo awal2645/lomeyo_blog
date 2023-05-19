@@ -1,4 +1,6 @@
 @extends('layouts.admin_layouts')
+@section('title','Add Post')
+@section('heading','Add Post')
 @section('content')
 <div class="card card-primary">
     <div class="card-header">
@@ -18,12 +20,13 @@
               </div>
               <div class="form-group">
                 <label for="header_img"> Blog Header Iamge</label>
-                <input type="file" class=" btn" name="header_img" id="header_img" placeholder="Enter post Name" required>
+                <input type="file" class=" btn" name="header_img" id="header_img" required>
               </div>
               <div class="form-group">
                 <label for="read_time"> Blog Read Time </label>
                 <input type="text" class="form-control" name="read_time" id="read_time" placeholder="Enter Aprox Blog Reading Time " required>
               </div>
+             
               <div class="form-group">
                 <label for="read_time"> Category Select </label>
               <select class="form-control select2 select2-hidden-accessible" name="category_id" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" required>
@@ -56,13 +59,16 @@
               <div class="form-group">
                 <label for="post_slug">Blog Post Slug</label>
                 <input type="text" class="form-control" name="post_slug" id="post_slug" placeholder="Enter post Slug" required>
+                @if ($errors->has('post_slug'))
+                <p class=" text-danger">{{ $errors->first('post_slug') }}</p>
+                @endif
               </div>
               <div class="form-group">
-                <label for="read_time"> Featured Select </label>
-              <select class="form-control select2 select2-hidden-accessible" name="featured" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" required>   
-                <option selected="selected"  value="0">No</option>
-                <option  value="1">Yes</option>
-              </select>
+                <label class="" for="flexCheckDefault">
+                  Featured Post
+                </label>
+                <br>
+                <input type="checkbox" name="featured"  id="flexCheckDefault">
               </div>
               <div class="form-group">
                 <label for="read_time"> Status Select </label>

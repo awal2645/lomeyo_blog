@@ -11,6 +11,10 @@ class NotificationController extends Controller
 {
     public function example1(Request $request)
     {
+        $validatedData = $request->validate([
+           
+            'email' => 'required|'
+        ]);
         $email = $request->email;
         $article = [
             'title' => 'Lomeyo News Letter ',

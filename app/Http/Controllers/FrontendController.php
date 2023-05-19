@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogCategory;
 use App\Models\BlogFrontEnd;
 use App\Models\BlogPost;
 use App\Models\BlogTag;
@@ -17,6 +18,15 @@ class FrontendController extends Controller
         $latest= BlogPost::where('status',$status )->latest()->take(10)->get();
         $alldata= BlogPost::where('status',$status )->get();
         $tag= BlogTag::all();
-        return view("Frontend.frontend",['siteData'=>$siteData,'latest'=>$latest,'lates'=>$lates,'alldata'=>$alldata,'tag'=>$tag]);
+        $cat=BlogCategory::where('featured' ,1)->get();
+        return view("Frontend.frontend",[
+        'siteData'=>$siteData,
+        'latest'=>$latest,
+        'lates'=>$lates,
+        'alldata'=>$alldata,
+        'tag'=>$tag,
+        'cat'=>$cat,
+        ]);
     }
+  
 }

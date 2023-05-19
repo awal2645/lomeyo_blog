@@ -19,10 +19,10 @@ class BlogTagController extends Controller
 
     public function StoreBlogTag(Request $request)
     {
-        // $validated = $request->validate([
-        //     'category_name' => 'required|unique:blog_categories',
-        //     'category_des' => 'required'
-        //     ]);
+        $validated = $request->validate([
+            'tag_name' => 'required|unique:blog_tags',
+            'tag_slug' => 'required|unique:blog_tags'
+            ]);
 
         BlogTag::create($request->all());
         Alert::success('Congrats', 'Successfully Create');
@@ -51,11 +51,14 @@ class BlogTagController extends Controller
     
     public function UpdateBlogTag(Request $request,$id)
     {
-    
+        $validated = $request->validate([
+            'tag_name' => 'required|unique:blog_tags',
+            'tag_slug' => 'required|unique:blog_tags'
+            ]);
             $tagUpdate= BlogTag::find($id);
-            $tagUpdate->tag_name= $request->update_tag_name;
-            $tagUpdate->tag_slug= $request->update_tag_slug;
-            $tagUpdate->tag_des= $request->update_tag_des;
+            $tagUpdate->tag_name= $request->tag_name;
+            $tagUpdate->tag_slug= $request->tag_name;
+            $tagUpdate->tag_des= $request->tag_name;
             $tagUpdate->save();
             Alert::success('Congrats', ' Successfully Update');
             return redirect()->back();

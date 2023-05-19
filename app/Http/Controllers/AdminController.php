@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\BlogLike;
+use App\Models\BlogPost;
+use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,9 +18,18 @@ class AdminController extends Controller
     public function index()
     {
         if(Auth::user()->is_admin==1){
-            return redirect()->back();
+            return redirect()->route('home.index');
         }else{
-            return view("Backend.home_page");
+            $total_user = User::all();
+            $total_post= BlogPost::all();
+            $total_comment= Comment::all(); 
+            $total_like = BlogLike::all();
+            return view("Backend.home_page", [
+        'total_user'=> $total_user,
+        'total_post'=> $total_post,
+        'total_comment'=> $total_comment,
+        'total_like'=> $total_like,
+        ]);
         }
         
     }

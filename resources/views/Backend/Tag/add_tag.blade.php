@@ -1,4 +1,6 @@
 @extends('layouts.admin_layouts')
+@section('title','Add Tag')
+@section('heading','Add Tag')
 @section('content')
 <div class="card card-primary">
     <div class="card-header">
@@ -14,10 +16,16 @@
               <div class="form-group">
                 <label for="tag_name">Tag Name</label>
                 <input type="text" class="form-control" name="tag_name" id="tag_name" placeholder="Enter Category Name">
+                @if ($errors->has('tag_name'))
+                <p class=" text-danger">{{ $errors->first('tag_name') }}</p>
+                @endif
               </div>
               <div class="form-group">
                 <label for="tag_slug">Tag Slug</label>
                 <input type="text" class="form-control" name="tag_slug" id="tag_slug" placeholder="Enter Category Slug">
+                @if ($errors->has('tag_slug'))
+                <p class=" text-danger">{{ $errors->first('tag_slug') }}</p>
+                @endif
               </div>
               <div class="form-group">
                 <label for="tag_des">Tag Description</label>
@@ -25,8 +33,8 @@
               </div>
             <!-- /.card-body -->
       
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="">
+              <button type="submit" class="btn btn-primary form-control">Submit</button>
             </div>
           </form>
           </div>
